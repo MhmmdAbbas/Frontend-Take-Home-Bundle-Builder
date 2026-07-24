@@ -1,0 +1,78 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('https://fonts.hpfm.dev/%40/gilroy/Gilroy-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('https://fonts.hpfm.dev/%40/gilroy/Gilroy-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('https://fonts.hpfm.dev/%40/gilroy/Gilroy-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('https://fonts.hpfm.dev/%40/gilroy/Gilroy-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: 'Gilroy', 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  --color-brand: #4e2fd2;
+  --color-brand-hover: #3f24a8;
+  --color-wash: #edf4ff;
+  --color-ink: #0b0d10;
+  --color-text-dark: #1f1f1f;
+  --color-text-secondary: #484848;
+  --color-text-tertiary: #6f7882;
+  --color-border: #e0e5ec;
+  --color-accent-teal: #0aa288;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
