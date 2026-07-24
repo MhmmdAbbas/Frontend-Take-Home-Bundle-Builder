@@ -20,7 +20,9 @@ That starts:
 | API (product catalog) | `http://localhost:3001` |
 | Vite app | `http://localhost:8081` (auto-bumps if busy) |
 
-Open the **Vite** URL in the browser. The app proxies `/api/*` to the API.
+Open the **Local** Vite URL on this machine. On your phone (same Wi‑Fi), open the **Network** URL Vite prints (e.g. `http://192.168.x.x:8081/`). `/api` still proxies through Vite, so the phone does not need to hit the API port directly.
+
+Windows Firewall may prompt the first time — allow Node/Vite on private networks if the phone can’t connect.
 
 ### Other scripts
 
