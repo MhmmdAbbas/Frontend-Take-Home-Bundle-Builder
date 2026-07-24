@@ -2,11 +2,12 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useReducer,
+  useState,
   type ReactNode,
 } from 'react'
-import productsData from '../data/products.json'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import type {
   BundleAction,
@@ -23,9 +24,7 @@ import {
 } from '../utils/pricing'
 import { STORAGE_KEY } from '../utils/storage'
 
-const products = productsData as Product[]
-
-/** Seeded to match the Figma review-panel demo state */
+/** Seeded to match the review-panel demo state */
 export const defaultBundleState: BundleState = {
   currentStep: 1,
   quantities: {
@@ -72,8 +71,13 @@ function bundleReducer(state: BundleState, action: BundleAction): BundleState {
   }
 }
 
+type CatalogStatus = 'loading' | 'ready' | 'error'
+
 interface BundleContextValue {
   products: Product[]
+  catalogStatus: CatalogStatus
+  catalogError: string | null
+  reloadCatalog: () => void
   state: BundleState
   pricing: BundlePricing
   setQuantity: (key: string, quantity: number) => void
@@ -90,11 +94,54 @@ interface BundleContextValue {
 
 const BundleContext = createContext<BundleContextValue | null>(null)
 
+async function fetchProducts(): Promise<Product[]> {
+  const response = await fetch('/api/products')
+  if (!response.ok) {
+    throw new Error(`Failed to load products (${response.status})`)
+  }
+  return (await response.json()) as Product[]
+}
+
 export function BundleProvider({ children }: { children: ReactNode }) {
   const [, , persistBundle] = useLocalStorage<BundleState>(
     STORAGE_KEY,
     defaultBundleState,
   )
+
+  const [products, setProducts] = useState<Product[]>([])
+  const [catalogStatus, setCatalogStatus] = useState<CatalogStatus>('loading')
+  const [catalogError, setCatalogError] = useState<string | null>(null)
+  const [catalogTick, setCatalogTick] = useState(0)
+
+  useEffect(() => {
+    let cancelled = false
+
+    setCatalogStatus('loading')
+    setCatalogError(null)
+
+    fetchProducts()
+      .then((data) => {
+        if (cancelled) return
+        setProducts(data)
+        setCatalogStatus('ready')
+      })
+      .catch((error: unknown) => {
+        if (cancelled) return
+        setProducts([])
+        setCatalogStatus('error')
+        setCatalogError(
+          error instanceof Error ? error.message : 'Failed to load products',
+        )
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [catalogTick])
+
+  const reloadCatalog = useCallback(() => {
+    setCatalogTick((tick) => tick + 1)
+  }, [])
 
   const [state, dispatch] = useReducer(
     bundleReducer,
@@ -112,7 +159,7 @@ export function BundleProvider({ children }: { children: ReactNode }) {
 
   const pricing = useMemo(
     () => calculateBundlePricing(state, products),
-    [state],
+    [state, products],
   )
 
   const setQuantity = useCallback((key: string, quantity: number) => {
@@ -157,7 +204,7 @@ export function BundleProvider({ children }: { children: ReactNode }) {
 
   const getProductsByStep = useCallback(
     (step: number) => products.filter((product) => product.step === step),
-    [],
+    [products],
   )
 
   const getStepSelectedCount = useCallback(
@@ -173,6 +220,9 @@ export function BundleProvider({ children }: { children: ReactNode }) {
   const value = useMemo(
     () => ({
       products,
+      catalogStatus,
+      catalogError,
+      reloadCatalog,
       state,
       pricing,
       setQuantity,
@@ -187,6 +237,10 @@ export function BundleProvider({ children }: { children: ReactNode }) {
       saveForLater,
     }),
     [
+      products,
+      catalogStatus,
+      catalogError,
+      reloadCatalog,
       state,
       pricing,
       setQuantity,

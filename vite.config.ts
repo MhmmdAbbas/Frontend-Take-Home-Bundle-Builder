@@ -8,5 +8,13 @@ export default defineConfig({
     // 8080 is reserved on this machine; start at 8081 and auto-bump if busy
     port: 8081,
     strictPort: false,
+    proxy: {
+      '/api': 'http://localhost:3001',
+    },
+  },
+  preview: {
+    proxy: {
+      '/api': 'http://localhost:3001',
+    },
   },
 })
