@@ -1,4 +1,5 @@
-import { useId, type ReactNode } from 'react'
+import { useId, useRef, type ReactNode } from 'react'
+import { flushSync } from 'react-dom'
 import { ChevronUp } from '../icons'
 import { Button } from '../Button'
 
@@ -16,6 +17,25 @@ interface AccordionProps {
   children: ReactNode
 }
 
+/** Keep the clicked accordion header at the same viewport Y after open/close. */
+function preserveHeaderViewportPosition(
+  header: HTMLElement | null,
+  update: () => void,
+) {
+  if (!header) {
+    update()
+    return
+  }
+
+  const topBefore = header.getBoundingClientRect().top
+  flushSync(update)
+
+  const delta = header.getBoundingClientRect().top - topBefore
+  if (Math.abs(delta) > 0.5) {
+    window.scrollBy(0, delta)
+  }
+}
+
 export function Accordion({
   step,
   totalSteps = 4,
@@ -31,13 +51,18 @@ export function Accordion({
 }: AccordionProps) {
   const panelId = useId()
   const headerId = useId()
+  const headerRef = useRef<HTMLButtonElement>(null)
+
+  const handleToggle = () => {
+    preserveHeaderViewportPosition(headerRef.current, onToggle)
+  }
 
   return (
     <section
       className={
         isOpen
-          ? 'overflow-hidden rounded-[10px] bg-wash transition-colors'
-          : 'bg-white transition-colors'
+          ? 'overflow-hidden rounded-[10px] bg-wash transition-colors [overflow-anchor:none]'
+          : 'bg-white transition-colors [overflow-anchor:none]'
       }
     >
       <p className="px-[15px] pb-1 pt-2 text-[10px] font-medium uppercase leading-none tracking-[1.6px] text-text-secondary">
@@ -46,11 +71,12 @@ export function Accordion({
 
       <h2 className="m-0 text-inherit font-inherit">
         <button
+          ref={headerRef}
           id={headerId}
           type="button"
           aria-expanded={isOpen}
           aria-controls={panelId}
-          onClick={onToggle}
+          onClick={handleToggle}
           className={`flex w-full items-center justify-between border-y border-[rgba(31,31,31,0.5)] bg-transparent px-[15px] py-5 text-left ${
             isOpen ? 'border-b-transparent' : ''
           }`}

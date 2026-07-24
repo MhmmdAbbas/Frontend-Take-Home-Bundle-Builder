@@ -1,8 +1,8 @@
 # Frontend Take-Home — Bundle Builder
 
-React prototype of a multi-step security **bundle builder** with a live review panel, built from the [Figma design](https://www.figma.com/design/JYf61etQVqeseX7oY5alGz/Frontend-Test-Figma?node-id=68-8088).
+React prototype of a multi-step security **bundle builder** with a live review panel.
 
-Desktop layout matches the Figma two-column experience; tablet/mobile stay usable and coherent.
+Desktop layout uses a two-column experience; tablet/mobile stay usable and coherent.
 
 ## Run
 
@@ -40,7 +40,7 @@ npm run preview
 - **Save my system for later** → `localStorage` persist + restore on reload
 
 ### Seeded state
-Loads looking like the design: cameras, sensors, accessory, and plan pre-populated in the review panel.
+Loads with cameras, sensors, accessory, and plan pre-populated in the review panel.
 
 ## Tech
 
@@ -71,13 +71,12 @@ UI never manually syncs — cards, steppers, accordion counts, review rows, and 
 1. **Normalized quantities** — `quantities[productId::variantId]` keeps variant isolation simple and review-panel friendly.
 2. **Active variant is UI-only** — changing chips never overwrites sibling variant counts.
 3. **Pricing** — one utility (`utils/pricing.ts`) owns subtotal, compare-at, shipping savings, financing, and final total.
-4. **Plan row** — keeps the Figma shield treatment, but includes a quantity stepper so card ↔ review stay in sync (brief requirement).
-5. **Fonts** — Gilroy to match Figma, with Plus Jakarta Sans fallback.
+4. **Plan row** — keeps the shield treatment, but includes a quantity stepper so card ↔ review stay in sync (brief requirement).
+5. **Fonts** — Gilroy primary, with Plus Jakarta Sans fallback.
 6. **Checkout** — no payment backend; confirmation message only, as allowed by the brief.
-7. **Figma MCP** — file wasn’t editable via the connected Figma account; implementation used the public Figma URL + extracted design tokens/assets.
 
 ## Not finished / future
 
 - Real checkout API
-- Automated visual regression against the Figma frame
+- Automated visual regression tests
 - Unit tests for pricing + variant isolation
