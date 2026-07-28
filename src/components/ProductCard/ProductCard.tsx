@@ -36,18 +36,20 @@ export function ProductCard({ product }: ProductCardProps) {
       }`}
     >
       {/* Always HD catalog image — never color swatches */}
-      <div className="relative aspect-[214/124] w-full shrink-0 overflow-hidden rounded-[5px] xl:aspect-auto xl:h-[137px] xl:w-[101px]">
+      <div className="relative aspect-[214/124] w-full shrink-0 rounded-[5px] xl:aspect-auto xl:h-[137px] xl:w-[101px]">
         {product.badge ? (
-          <span className="absolute left-0 top-0 z-10 flex items-center justify-center rounded-[10px] bg-brand px-1.5 py-0.5 text-[12px] font-semibold whitespace-nowrap text-white">
+          <span className="absolute left-0 top-0 z-10 flex max-w-full items-center justify-center rounded-[10px] bg-brand px-1.5 py-0.5 text-[11px] font-semibold leading-none whitespace-nowrap text-white lg:text-[12px]">
             {product.badge}
           </span>
         ) : null}
-        <img
-          src={product.image}
-          alt={product.title}
-          className="block h-full w-full object-contain"
-          loading="lazy"
-        />
+        <div className="h-full w-full overflow-hidden rounded-[5px]">
+          <img
+            src={product.image}
+            alt={product.title}
+            className="block h-full w-full object-contain"
+            loading="lazy"
+          />
+        </div>
       </div>
 
       <div className="flex w-full min-w-0 flex-1 flex-col gap-2.5 xl:max-w-[205px] xl:gap-2.5">

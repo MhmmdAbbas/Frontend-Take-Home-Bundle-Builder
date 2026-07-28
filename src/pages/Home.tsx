@@ -51,14 +51,25 @@ function StepProducts({ step }: { step: number }) {
   if (step === 1) {
     return (
       <>
-        {/* Phone: 1 col · iPad: 5-col row · Laptop: 2+2+1 */}
+        {/*
+          Phone (<md): 1 col
+          Narrow tablet (md–lg, ~768–1023): 2-col — avoids crushed Save badges
+          Wide tablet (lg–xl): 5-col row (Figma iPad)
+          Laptop (xl+): 2+2+1 horizontal cards
+        */}
         <div className="flex flex-col gap-[15px] md:hidden">
           {products.map((product) => (
             <ProductCard key={product.productId} product={product} />
           ))}
         </div>
 
-        <div className="hidden gap-[15px] md:flex md:flex-row xl:hidden">
+        <div className="hidden grid-cols-2 gap-[15px] md:grid lg:hidden">
+          {products.map((product) => (
+            <ProductCard key={product.productId} product={product} />
+          ))}
+        </div>
+
+        <div className="hidden gap-[15px] lg:flex lg:flex-row xl:hidden">
           {products.map((product) => (
             <ProductCard key={product.productId} product={product} />
           ))}

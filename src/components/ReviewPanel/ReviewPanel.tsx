@@ -144,16 +144,16 @@ export function ReviewPanel() {
 
   const checkoutBlock = (
     <div className="flex w-full flex-col gap-2">
-      {/* iPad: badge + returns copy side by side */}
-      <div className="flex items-center gap-4 md:gap-6">
+      {/* Wide tablet: badge + returns copy side by side */}
+      <div className="flex items-center gap-4 lg:gap-6">
         <img
           src="/images/satisfaction-badge.png"
           alt="Satisfaction Guarantee"
           width={131}
           height={131}
-          className="h-[78px] w-[78px] shrink-0 md:h-[131px] md:w-[131px] xl:h-[78px] xl:w-[78px]"
+          className="h-[78px] w-[78px] shrink-0 lg:h-[131px] lg:w-[131px] xl:h-[78px] xl:w-[78px]"
         />
-        <div className="hidden min-w-0 flex-1 md:block xl:hidden">
+        <div className="hidden min-w-0 flex-1 lg:block xl:hidden">
           <p className="text-lg font-semibold leading-[1.1] tracking-[0.6px] text-text-dark">
             30-day hassle-free returns
           </p>
@@ -162,7 +162,7 @@ export function ReviewPanel() {
             you 100%.
           </p>
         </div>
-        <div className="ml-auto flex flex-col items-end gap-2 md:hidden xl:flex">
+        <div className="ml-auto flex flex-col items-end gap-2 lg:hidden xl:flex">
           <div className="flex items-center justify-center rounded-[3px] bg-brand px-2 py-0.5">
             <span className="whitespace-nowrap text-xs font-medium leading-4 text-white">
               as low as {formatCurrency(pricing.monthlyPayment)}/mo
@@ -179,8 +179,8 @@ export function ReviewPanel() {
         </div>
       </div>
 
-      {/* iPad financing + totals row */}
-      <div className="hidden items-center justify-between md:flex xl:hidden">
+      {/* Wide tablet financing + totals row */}
+      <div className="hidden items-center justify-between lg:flex xl:hidden">
         <div className="rounded-[3px] bg-brand p-2">
           <span className="whitespace-nowrap text-base font-medium tracking-[-0.8px] text-white">
             as low as {formatCurrency(pricing.monthlyPayment)}/mo
@@ -231,18 +231,18 @@ export function ReviewPanel() {
         Review
       </p>
 
-      <div className="flex flex-col gap-2.5 px-5 pb-8 pt-5 md:gap-0">
+      <div className="flex flex-col gap-2.5 px-5 pb-8 pt-5 lg:gap-0">
         {/*
-          Phone + Laptop: single column
-          iPad: two columns — lines | checkout (Frame 1736)
+          Phone + narrow tablet + Laptop: single column
+          Wide tablet (lg–xl): two columns — lines | checkout (Frame 1736)
         */}
-        <div className="flex flex-col gap-6 md:flex-row md:gap-[52px] xl:flex-col xl:gap-0">
-          <div className="flex min-w-0 flex-1 flex-col gap-2.5 md:max-w-[552px] xl:max-w-none">
+        <div className="flex flex-col gap-6 lg:flex-row lg:gap-8 xl:flex-col xl:gap-0">
+          <div className="flex min-w-0 flex-1 flex-col gap-2.5 lg:max-w-[552px] xl:max-w-none">
             <div className="flex flex-col gap-1.5 tracking-[0.6px]">
-              <h2 className="text-[22px] font-semibold leading-none text-text-dark md:text-[28px] xl:text-[22px]">
+              <h2 className="text-[22px] font-semibold leading-none text-text-dark lg:text-[28px] xl:text-[22px]">
                 Your security system
               </h2>
-              <p className="text-sm font-medium leading-[1.3] text-[rgba(31,31,31,0.75)] md:text-base xl:text-sm">
+              <p className="text-sm font-medium leading-[1.3] text-[rgba(31,31,31,0.75)] lg:text-base xl:text-sm">
                 Review your personalized protection system designed to keep what
                 matters most safe.
               </p>
@@ -251,7 +251,7 @@ export function ReviewPanel() {
             <div className="flex flex-col gap-2.5">{lineSections}</div>
           </div>
 
-          <div className="w-full shrink-0 md:w-[486px] xl:mt-6 xl:w-full">
+          <div className="w-full shrink-0 lg:min-w-0 lg:flex-1 lg:max-w-[486px] xl:mt-6 xl:max-w-none xl:flex-none">
             {checkoutBlock}
           </div>
         </div>
