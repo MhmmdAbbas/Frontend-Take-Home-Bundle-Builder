@@ -22,7 +22,11 @@ export function QuantityStepper({
 
   return (
     <div
-      className="flex w-[72px] items-center justify-between py-1"
+      className={
+        tone === 'card'
+          ? 'flex w-[80px] items-center justify-between gap-2.5 py-1'
+          : 'flex w-[72px] items-center justify-between py-1'
+      }
       role="group"
       aria-label={label}
     >
@@ -40,7 +44,11 @@ export function QuantityStepper({
         <MinusIcon />
       </button>
       <span
-        className="w-2 text-center text-sm font-semibold leading-4 text-ink"
+        className={
+          tone === 'card'
+            ? 'text-center text-base font-medium leading-5 text-ink'
+            : 'w-2 text-center text-sm font-semibold leading-4 text-ink'
+        }
         aria-live="polite"
       >
         {quantity}

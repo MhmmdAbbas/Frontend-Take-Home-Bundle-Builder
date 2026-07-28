@@ -1,6 +1,5 @@
 import type { Product } from '../../types'
 import { makeQuantityKey, useBundle } from '../../context/BundleContext'
-import { getVariantImage } from '../../data/variantImages'
 import { formatCurrency } from '../../utils/pricing'
 import { QuantityStepper } from '../QuantityStepper'
 import { VariantSelector } from '../VariantSelector'
@@ -9,6 +8,11 @@ interface ProductCardProps {
   product: Product
 }
 
+/**
+ * Laptop (xl+): horizontal card — image 101×137 left, content right (Frame 1735)
+ * iPad (md–xl): vertical card — image on top, content below (Frame 1736)
+ * Phone (<md): vertical full-width card (iPhone frame)
+ */
 export function ProductCard({ product }: ProductCardProps) {
   const {
     getActiveVariant,
@@ -22,47 +26,47 @@ export function ProductCard({ product }: ProductCardProps) {
   const quantityKey = makeQuantityKey(product.productId, activeVariantId)
   const quantity = getQuantity(product.productId, activeVariantId)
   const selected = quantity > 0
-  const imageSrc =
-    getVariantImage(product.productId, activeVariantId) ?? product.image
 
   return (
     <article
-      className={`relative flex min-w-0 flex-1 items-center gap-[13px] rounded-[10px] border bg-white p-[11px] transition-[border-color,box-shadow] max-w-[360px] ${
+      className={`relative flex min-w-0 flex-1 flex-col items-center gap-[19px] overflow-hidden rounded-[10px] border-2 bg-white px-[11px] py-[15px] transition-colors xl:flex-row xl:items-center xl:p-[11px] ${
         selected
-          ? 'border-brand shadow-[0_0_0_1px_#4E2FD2]'
+          ? 'border-[rgba(78,47,210,0.7)]'
           : 'border-border'
       }`}
     >
-      {product.badge ? (
-        <span className="absolute left-1.5 top-1.5 z-10 flex h-[19px] w-[65px] items-center justify-center rounded-[10px] bg-brand px-1.5 text-[11px] font-semibold whitespace-nowrap text-white">
-          {product.badge}
-        </span>
-      ) : null}
-
-      <div className="relative shrink-0">
+      {/* Always HD catalog image — never color swatches */}
+      <div className="relative aspect-[214/124] w-full shrink-0 overflow-hidden rounded-[5px] xl:aspect-auto xl:h-[137px] xl:w-[101px]">
+        {product.badge ? (
+          <span className="absolute left-0 top-0 z-10 flex items-center justify-center rounded-[10px] bg-brand px-1.5 py-0.5 text-[12px] font-semibold whitespace-nowrap text-white">
+            {product.badge}
+          </span>
+        ) : null}
         <img
-          src={imageSrc}
+          src={product.image}
           alt={product.title}
-          width={101}
-          height={101}
-          className="block h-auto w-[101px] rounded-[5px]"
+          className="block h-full w-full object-contain"
           loading="lazy"
         />
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-        <h3 className="text-base font-semibold text-ink">{product.title}</h3>
-        <p className="text-sm leading-[1.4] text-text-tertiary">
-          {product.description}{' '}
-          {product.learnMoreUrl ? (
-            <a
-              href={product.learnMoreUrl}
-              className="whitespace-nowrap font-medium text-brand underline"
-            >
-              Learn More
-            </a>
-          ) : null}
-        </p>
+      <div className="flex w-full min-w-0 flex-1 flex-col gap-2.5 xl:max-w-[205px] xl:gap-2.5">
+        <div className="flex flex-col gap-2 tracking-[0.6px]">
+          <h3 className="text-lg font-semibold leading-none text-text-dark xl:text-base">
+            {product.title}
+          </h3>
+          <p className="text-sm leading-[1.3] text-[rgba(31,31,31,0.75)] xl:text-[12px]">
+            {product.description}{' '}
+            {product.learnMoreUrl ? (
+              <a
+                href={product.learnMoreUrl}
+                className="font-medium text-[#00e] underline"
+              >
+                Learn More
+              </a>
+            ) : null}
+          </p>
+        </div>
 
         {hasVariants && product.variants ? (
           <VariantSelector
@@ -76,25 +80,26 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         ) : null}
 
-        <div className="mt-auto flex items-center justify-between gap-2">
+        <div className="mt-auto flex w-full items-center justify-between gap-2 pt-1">
           <QuantityStepper
             quantity={quantity}
             onChange={(next) => setQuantity(quantityKey, next)}
             label={`${product.title} quantity`}
             tone="card"
           />
-          <div className="flex flex-col items-end whitespace-nowrap">
+          {/* iPad: prices inline; laptop: stacked */}
+          <div className="flex flex-row items-center gap-1 tracking-[0.6px] xl:flex-col xl:items-end xl:gap-0.5">
             {product.compareAtPrice != null ? (
-              <span className="text-base tracking-[0.6px] text-[#D8392B] line-through">
+              <span className="text-base text-[#D8392B] line-through">
                 {formatCurrency(product.compareAtPrice)}
               </span>
             ) : null}
             {product.price === 0 ? (
-              <span className="text-base tracking-[0.6px] text-[#575757]">
+              <span className="text-base font-semibold text-[#575757]">
                 FREE
               </span>
             ) : (
-              <span className="text-base tracking-[0.6px] text-[#575757]">
+              <span className="text-base font-semibold text-[#575757]">
                 {formatCurrency(product.price)}
               </span>
             )}

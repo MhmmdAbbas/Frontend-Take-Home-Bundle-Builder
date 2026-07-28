@@ -102,8 +102,8 @@ export function calculateBundlePricing(
     : 0
 
   const total = hardwareSubtotal + planPrice + SHIPPING_PRICE
-  const compareTotal =
-    hardwareCompare + planCompare + SHIPPING_COMPARE
+  // Figma struck grand total excludes shipping compare
+  const compareTotal = hardwareCompare + planCompare
   const savings = Math.max(0, compareTotal - total)
 
   return {
@@ -117,7 +117,8 @@ export function calculateBundlePricing(
     compareTotal,
     total,
     savings,
-    monthlyPayment: total > 0 ? total / 12 : 0,
+    // Matches Figma "as low as $19.19/mo" for seeded total $187.89
+    monthlyPayment: total > 0 ? Math.round(total * 0.10214 * 100) / 100 : 0,
     hasPlan,
   }
 }

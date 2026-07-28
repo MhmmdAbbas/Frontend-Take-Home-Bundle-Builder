@@ -1,3 +1,4 @@
+/** Tiny color-chip thumbnails only — never use for card/summary hero photos. */
 export const variantImageMap: Record<string, string> = {
   'wyze-cam-v4-white': 'wyze-cam-v4-white.png',
   'wyze-cam-v4-grey': 'wyze-cam-v4-grey.png',
@@ -10,7 +11,11 @@ export const variantImageMap: Record<string, string> = {
   'wyze-battery-cam-pro-black': 'wyze-cam-battery-black.png',
 }
 
-export function getVariantImage(productId: string, variantId: string): string | undefined {
+/** Small swatch for the White/Grey/Black picker only. */
+export function getVariantImage(
+  productId: string,
+  variantId: string,
+): string | undefined {
   const file = variantImageMap[`${productId}-${variantId}`]
   return file ? `/images/variants/${file}` : undefined
 }

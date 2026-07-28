@@ -65,7 +65,11 @@ export function Accordion({
           : 'bg-white transition-colors [overflow-anchor:none]'
       }
     >
-      <p className="px-[15px] pb-1 pt-2 text-[10px] font-medium uppercase leading-none tracking-[1.6px] text-text-secondary">
+      <p
+        className={`px-[15px] pb-1 pt-2 font-medium uppercase leading-none tracking-[1.6px] text-text-secondary ${
+          isOpen ? 'text-[12px]' : 'text-[10px]'
+        }`}
+      >
         Step {step} of {totalSteps}
       </p>
 
@@ -77,23 +81,33 @@ export function Accordion({
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={handleToggle}
-          className={`flex w-full items-center justify-between border-y border-[rgba(31,31,31,0.5)] bg-transparent px-[15px] py-5 text-left ${
-            isOpen ? 'border-b-transparent' : ''
+          className={`flex w-full items-center justify-between gap-2 border-[rgba(31,31,31,0.5)] bg-transparent px-[15px] py-5 text-left ${
+            isOpen
+              ? 'border-t-[0.5px] border-b-0'
+              : 'border-y-[0.5px]'
           }`}
         >
-          <span className="flex items-center gap-2">
-            <span className="flex items-center justify-center">{icon}</span>
-            <span className="text-lg font-semibold leading-none text-ink">
+          <span className="flex min-w-0 flex-1 items-center gap-2">
+            <span className="flex shrink-0 items-center justify-center">
+              {icon}
+            </span>
+            <span className="text-[22px] font-semibold leading-none text-ink">
               {title}
             </span>
-            <span className="whitespace-nowrap text-sm font-medium leading-4 text-brand">
+          </span>
+          <span className="flex shrink-0 items-center gap-1">
+            <span
+              className={`whitespace-nowrap text-sm font-medium leading-4 text-brand ${
+                isOpen ? '' : 'md:hidden'
+              }`}
+            >
               {selectedCount} selected
             </span>
-          </span>
-          <span
-            className={`flex transition-transform ${isOpen ? '' : 'rotate-180'}`}
-          >
-            <ChevronUp />
+            <span
+              className={`flex transition-transform ${isOpen ? '' : 'rotate-180'}`}
+            >
+              <ChevronUp />
+            </span>
           </span>
         </button>
       </h2>
@@ -103,7 +117,7 @@ export function Accordion({
           id={panelId}
           role="region"
           aria-labelledby={headerId}
-          className="flex flex-col gap-3 px-[22px] pb-5 pt-1"
+          className="flex flex-col gap-[15px] px-[15px] pb-5"
         >
           {children}
           {showNext && nextLabel && onNext ? (

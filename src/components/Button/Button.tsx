@@ -9,11 +9,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'w-full rounded-lg bg-brand px-4 py-4 text-base font-semibold text-white transition-colors hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-45',
+    'w-full rounded-[4px] bg-brand px-4 py-[13px] text-[17px] font-bold text-white transition-colors hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-45',
   outline:
-    'inline-flex items-center justify-center gap-2 self-center rounded-[7px] border border-brand bg-transparent px-6 py-[5px] text-lg font-semibold text-brand transition-colors hover:bg-brand/5 disabled:cursor-not-allowed disabled:opacity-45',
+    'inline-flex h-[39px] items-center justify-center gap-2 self-center rounded-[7px] border border-brand bg-transparent px-6 py-[5px] text-lg font-semibold leading-6 text-brand transition-colors hover:bg-brand/5 disabled:cursor-not-allowed disabled:opacity-45',
   ghost:
-    'w-full bg-transparent text-sm font-medium text-text-tertiary underline transition-colors hover:text-brand disabled:cursor-not-allowed disabled:opacity-45',
+    'w-full bg-transparent text-[14px] font-normal leading-[1.2] tracking-[-0.016px] text-[#484848] underline transition-colors hover:text-brand disabled:cursor-not-allowed disabled:opacity-45',
 }
 
 export function Button({

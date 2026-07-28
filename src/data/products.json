@@ -23,13 +23,13 @@
     "title": "Wyze Cam Pan v3",
     "description": "360\u00b0 pan and 180\u00b0 tilt security camera.",
     "image": "/images/wyze-cam-pan-v3.png",
-    "badge": "Save 12%",
+    "badge": "Save 17%",
     "variants": [
       { "variantId": "white", "label": "White", "swatchColor": "#F5F5F0" },
       { "variantId": "black", "label": "Black", "swatchColor": "#1A1A1A" }
     ],
-    "price": 34.98,
-    "compareAtPrice": 39.98,
+    "price": 23.99,
+    "compareAtPrice": 28.99,
     "learnMoreUrl": "#"
   },
   {
